@@ -28,5 +28,5 @@ module.exports = {
       borderColor: ['dark'],
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/typography')],
 }
