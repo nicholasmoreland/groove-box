@@ -1,32 +1,40 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { NavBar } from "../components/navbar/navbar";
 
-import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  updateProfile,
+} from "firebase/auth";
 import { auth } from "../lib/firebase";
 
-const SignIn = () => {
+const SignUp = () => {
   const { theme } = useTheme();
   const router = useRouter();
 
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSignIn = async (event: { preventDefault: () => void }) => {
-    event.preventDefault(); // Prevent form submission
+  const handleSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
     try {
-      const userCredential = await signInWithEmailAndPassword(
+      const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
       const user = userCredential.user;
+
+      await updateProfile(user, {
+        displayName: name,
+      });
 
       router.push("/");
       console.log(user);
@@ -45,23 +53,50 @@ const SignIn = () => {
       }
     });
 
-    return () => unsubscribe();
+    return () => unsubscribe(); // Cleanup the listener when component unmounts
   }, []);
 
+  useEffect(() => {
+    console.log("name: ", name);
+    console.log("email: ", email);
+    console.log("password: ", password);
+  }, [name, email, password]);
+
   return (
-    <div className={theme === "dark" ? "dark" : undefined}>
+    <div className={theme == "dark" ? "dark" : ""}>
       <div className="bg-white dark:bg-gray-900 min-h-screen">
         <NavBar />
 
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 dark:text-white">
-              Sign in to your account
+              Sign up to use our service
             </h2>
           </div>
 
-          <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm rounded-xl p-12 shadow-md bg-slate-50 dark:bg-white">
-            <form className="space-y-6" onSubmit={handleSignIn}>
+          <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm bg-white rounded-xl p-12 shadow-md">
+            <form className="space-y-6" onSubmit={handleSignUp}>
+              <div>
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Name
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    autoComplete="name"
+                    required
+                    placeholder="John Doe"
+                    className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6 bg-white"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </div>
+              </div>
               <div>
                 <label
                   htmlFor="email"
@@ -91,14 +126,6 @@ const SignIn = () => {
                   >
                     Password
                   </label>
-                  <div className="text-sm">
-                    <Link
-                      href="#"
-                      className="font-semibold text-indigo-600 dark:text-indigo-500 hover:text-indigo-500 dark:hover:text-indigo-400"
-                    >
-                      Forgot password?
-                    </Link>
-                  </div>
                 </div>
                 <div className="mt-2">
                   <input
@@ -119,20 +146,10 @@ const SignIn = () => {
                   type="submit"
                   className="flex w-full justify-center rounded-md bg-indigo-600 dark:bg-indigo-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 dark:hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                  Sign in
+                  Sign up
                 </button>
               </div>
             </form>
-
-            <p className="mt-10 text-center text-sm text-gray-500 dark:text-black">
-              Not a member?{" "}
-              <Link
-                href="/signup"
-                className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 dark:text-indigo-500 dark:hover:text-indigo-400"
-              >
-                Sign up to use our service
-              </Link>
-            </p>
           </div>
         </div>
       </div>
@@ -140,4 +157,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default SignUp;

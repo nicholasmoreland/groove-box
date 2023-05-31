@@ -7,9 +7,24 @@ import { useTheme } from "next-themes";
 import { BsSunFill, BsSun } from "react-icons/bs";
 import { IoReorderThreeOutline, IoCloseOutline } from "react-icons/io5";
 
+import { useAuthState } from "react-firebase-hooks/auth";
+import { signOut } from "firebase/auth";
+import { auth } from "../../lib/firebase";
+
 const NavBar = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const { theme, setTheme } = useTheme();
+  const [isOpen, setIsOpen] = useState(false);
+  const [user] = useAuthState(auth);
+
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+
+      console.log("User signed out");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div
@@ -28,7 +43,7 @@ const NavBar = () => {
             className="relative flex items-center py-1 px-1 rounded-lg text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900"
           >
             <div className="flex flex-col px-2 text-sm leading-6 font-medium text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900">
-              <h1>Nicholas Moreland</h1>
+              <h1>{user ? user.displayName : "Home"}</h1>
             </div>
           </Link>
         </motion.div>
@@ -83,22 +98,36 @@ const NavBar = () => {
         <div className="relative hidden lg:flex items-center ml-auto">
           <nav className="text-sm leading-6 font-semibold text-slate-700 dark:text-slate-200">
             <ul className="flex">
-              <motion.li whileTap={{ scale: 0.95 }}>
-                <Link
-                  href="/signup"
-                  className="font-medium px-3 py-2 rounded-lg text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900"
-                >
-                  Sign up
-                </Link>
-              </motion.li>
-              <motion.li whileTap={{ scale: 0.95 }}>
-                <Link
-                  href="/signin"
-                  className="font-medium px-3 py-2 rounded-lg text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900"
-                >
-                  Sign in
-                </Link>
-              </motion.li>
+              {user ? (
+                <motion.li whileTap={{ scale: 0.95 }}>
+                  <Link
+                    href="/"
+                    onClick={handleSignOut}
+                    className="font-medium px-3 py-2 rounded-lg text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900"
+                  >
+                    Sign out
+                  </Link>
+                </motion.li>
+              ) : (
+                <>
+                  <motion.li whileTap={{ scale: 0.95 }}>
+                    <Link
+                      href="/signup"
+                      className="font-medium px-3 py-2 rounded-lg text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900"
+                    >
+                      Sign up
+                    </Link>
+                  </motion.li>
+                  <motion.li whileTap={{ scale: 0.95 }}>
+                    <Link
+                      href="/signin"
+                      className="font-medium px-3 py-2 rounded-lg text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900"
+                    >
+                      Sign in
+                    </Link>
+                  </motion.li>
+                </>
+              )}
             </ul>
           </nav>
 
