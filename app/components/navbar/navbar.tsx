@@ -67,24 +67,36 @@ const NavBar = () => {
         {isOpen && (
           <div className="absolute top-full right-0 mt-2 rounded-lg shadow-xl p-2 w-48 lg:flex items-center sm:mr-2 backdrop-blur border-slate-900/10 transition-colors duration-500 bg-white/95 supports-backdrop-blur:bg-white/60 dark:bg-transparent">
             <ul className="flex flex-col">
-              <motion.li whileTap={{ scale: 0.95 }}>
-                <Link href="/signup">
-                  <p className="font-medium px-3 py-2 rounded-lg text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900">
-                    Sign up
-                  </p>
-                </Link>
-              </motion.li>
-              <motion.li whileTap={{ scale: 0.95 }}>
-                <Link href="/signin">
-                  <p className="font-medium px-3 py-2 rounded-lg text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900">
-                    Sign in
-                  </p>
-                </Link>
-              </motion.li>
+              {user ? (
+                <motion.li whileTap={{ scale: 0.95 }}>
+                  <Link href="/" onClick={handleSignOut}>
+                    <p className="font-medium px-3 py-2 rounded-lg text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900">
+                      Sign out
+                    </p>
+                  </Link>
+                </motion.li>
+              ) : (
+                <>
+                  <motion.li whileTap={{ scale: 0.95 }}>
+                    <Link href="/signup">
+                      <p className="font-medium px-3 py-2 rounded-lg text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900">
+                        Sign up
+                      </p>
+                    </Link>
+                  </motion.li>
+                  <motion.li whileTap={{ scale: 0.95 }}>
+                    <Link href="/signin">
+                      <p className="font-medium px-3 py-2 rounded-lg text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900">
+                        Sign in
+                      </p>
+                    </Link>
+                  </motion.li>
+                </>
+              )}
               <motion.li
                 whileTap={{ scale: 0.95 }}
                 onClick={() =>
-                  theme == "dark" ? setTheme("light") : setTheme("dark")
+                  theme === "dark" ? setTheme("light") : setTheme("dark")
                 }
               >
                 <p className="font-medium px-3 py-2 rounded-lg text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900">
