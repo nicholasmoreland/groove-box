@@ -47,6 +47,17 @@ const NavBar = () => {
             </div>
           </Link>
         </motion.div>
+        {user ? (
+          user.emailVerified ? (
+            <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+              Verified
+            </span>
+          ) : (
+            <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+              Not Verified
+            </span>
+          )
+        ) : undefined}
 
         <div className="ml-auto">
           <div className="block lg:hidden relative items-center mr-2 ">
@@ -115,7 +126,6 @@ const NavBar = () => {
                   <motion.li whileTap={{ scale: 0.95 }}>
                     <Link
                       href="/test"
-                      onClick={handleSignOut}
                       className="font-medium px-3 py-2 rounded-lg text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900"
                     >
                       Components
