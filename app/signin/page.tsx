@@ -2,20 +2,19 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { NavBar } from "../components/navbar/navbar";
-
 import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../lib/firebase";
+import { IoCloseOutline } from "react-icons/io5";
 
 const SignIn = () => {
   const { theme } = useTheme();
   const router = useRouter();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [signInError, setSignInError] = useState(false);
 
   const handleSignIn = async (event: { preventDefault: () => void }) => {
     event.preventDefault(); // Prevent form submission
@@ -31,7 +30,7 @@ const SignIn = () => {
       router.push("/");
       console.log(user);
     } catch (error) {
-      console.error(error);
+      setSignInError(true);
     }
   };
 
@@ -53,9 +52,23 @@ const SignIn = () => {
       <div className="bg-white dark:bg-gray-900 min-h-screen">
         <NavBar />
 
-        <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+        {signInError ? (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative m-8 lg:mx-16">
+            <strong className="font-bold">Alert! </strong>
+            <span className="block sm:inline">
+              Invalid email or password. Please try again.
+            </span>
+            <span className="absolute top-0 bottom-0 right-0 p-4">
+              <button onClick={() => setSignInError(false)}>
+                <IoCloseOutline />
+              </button>
+            </span>
+          </div>
+        ) : null}
+
+        <div className="flex min-h-full flex-1 flex-col justify-center p-6 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 dark:text-white">
+            <h2 className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 dark:text-white">
               Sign in to your account
             </h2>
           </div>

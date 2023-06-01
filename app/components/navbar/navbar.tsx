@@ -99,7 +99,7 @@ const NavBar = () => {
                   theme === "dark" ? setTheme("light") : setTheme("dark")
                 }
               >
-                <p className="font-medium px-3 py-2 rounded-lg text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900">
+                <p className="cursor-pointer font-medium px-3 py-2 rounded-lg text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900">
                   Toggle
                 </p>
               </motion.li>
@@ -111,15 +111,26 @@ const NavBar = () => {
           <nav className="text-sm leading-6 font-semibold text-slate-700 dark:text-slate-200">
             <ul className="flex">
               {user ? (
-                <motion.li whileTap={{ scale: 0.95 }}>
-                  <Link
-                    href="/"
-                    onClick={handleSignOut}
-                    className="font-medium px-3 py-2 rounded-lg text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900"
-                  >
-                    Sign out
-                  </Link>
-                </motion.li>
+                <>
+                  <motion.li whileTap={{ scale: 0.95 }}>
+                    <Link
+                      href="/test"
+                      onClick={handleSignOut}
+                      className="font-medium px-3 py-2 rounded-lg text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900"
+                    >
+                      Components
+                    </Link>
+                  </motion.li>
+                  <motion.li whileTap={{ scale: 0.95 }}>
+                    <Link
+                      href="/"
+                      onClick={handleSignOut}
+                      className="font-medium px-3 py-2 rounded-lg text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900"
+                    >
+                      Sign out
+                    </Link>
+                  </motion.li>
+                </>
               ) : (
                 <>
                   <motion.li whileTap={{ scale: 0.95 }}>
