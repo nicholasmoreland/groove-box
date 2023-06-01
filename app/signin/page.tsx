@@ -53,32 +53,34 @@ const SignIn = () => {
         <NavBar />
 
         {signInError ? (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative m-8 lg:mx-16">
-            <strong className="font-bold">Alert! </strong>
-            <span className="block sm:inline">
-              Invalid email or password. Please try again.
-            </span>
-            <span className="absolute top-0 bottom-0 right-0 p-4">
-              <button onClick={() => setSignInError(false)}>
-                <IoCloseOutline />
-              </button>
-            </span>
+          <div className="mt-4 mx-4">
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative lg:mx-16">
+              <strong className="font-bold">Alert! </strong>
+              <span className="block sm:inline">
+                Invalid email or password. Please try again.
+              </span>
+              <span className="absolute top-0 bottom-0 right-0 p-4">
+                <button onClick={() => setSignInError(false)}>
+                  <IoCloseOutline />
+                </button>
+              </span>
+            </div>
           </div>
-        ) : null}
+        ) : undefined}
 
-        <div className="flex min-h-full flex-1 flex-col justify-center p-6 lg:px-8">
+        <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <h2 className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 dark:text-white">
+            <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 dark:text-white">
               Sign in to your account
             </h2>
           </div>
 
-          <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm rounded-xl p-12 shadow-md bg-slate-50 dark:bg-white">
+          <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-sm">
             <form className="space-y-6" onSubmit={handleSignIn}>
               <div>
                 <label
                   htmlFor="email"
-                  className="block text-sm font-medium leading-6 text-gray-900"
+                  className="block text-sm font-medium leading-6 text-gray-900 dark:text-white"
                 >
                   Email address
                 </label>
@@ -100,7 +102,7 @@ const SignIn = () => {
                 <div className="flex items-center justify-between">
                   <label
                     htmlFor="password"
-                    className="block text-sm font-medium leading-6 text-gray-900"
+                    className="block text-sm font-medium leading-6 text-gray-900 dark:text-white"
                   >
                     Password
                   </label>
@@ -137,11 +139,11 @@ const SignIn = () => {
               </div>
             </form>
 
-            <p className="mt-10 text-center text-sm text-gray-500 dark:text-black">
+            <p className="mt-10 text-center text-sm text-gray-500 dark:text-white">
               Not a member?{" "}
               <Link
                 href="/signup"
-                className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 dark:text-indigo-500 dark:hover:text-indigo-400"
+                className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
               >
                 Sign up to use our service
               </Link>
