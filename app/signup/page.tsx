@@ -12,13 +12,15 @@ import {
   onAuthStateChanged,
   updateProfile,
 } from "firebase/auth";
-import { auth } from "../lib/firebase";
+import { doc, setDoc } from "firebase/firestore";
+import { auth, db } from "../lib/firebase";
 
 const SignUp = () => {
   const { theme } = useTheme();
   const router = useRouter();
 
   const [name, setName] = useState("");
+  const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -38,6 +40,12 @@ const SignUp = () => {
       });
 
       await sendEmailVerification(user);
+
+      await setDoc(doc(db, "users", user.uid), {
+        name: name,
+        username: userName,
+        email: email,
+      });
 
       router.push("/");
       console.log(user);
@@ -97,6 +105,27 @@ const SignUp = () => {
                     className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6 bg-white"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium leading-6 text-gray-900 dark:text-white"
+                >
+                  Username
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    autoComplete="name"
+                    required
+                    placeholder="jdoe"
+                    className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6 bg-white"
+                    value={userName}
+                    onChange={(e) => setUserName(e.target.value)}
                   />
                 </div>
               </div>

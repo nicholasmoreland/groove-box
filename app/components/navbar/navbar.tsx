@@ -26,6 +26,8 @@ const NavBar = () => {
     }
   };
 
+  console.log(user);
+
   return (
     <div
       className={
@@ -123,7 +125,15 @@ const NavBar = () => {
                 <>
                   <motion.li whileTap={{ scale: 0.95 }}>
                     <Link
-                      href="/test"
+                      href={"/user/" + user.displayName}
+                      className="font-medium px-3 py-2 rounded-lg text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900"
+                    >
+                      Dashboard
+                    </Link>
+                  </motion.li>
+                  <motion.li whileTap={{ scale: 0.95 }}>
+                    <Link
+                      href="/component"
                       className="font-medium px-3 py-2 rounded-lg text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900"
                     >
                       Components
