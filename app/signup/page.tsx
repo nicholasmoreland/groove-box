@@ -7,6 +7,7 @@ import { useTheme } from "next-themes";
 import { NavBar } from "../components/navbar/navbar";
 
 import {
+  sendEmailVerification,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   updateProfile,
@@ -35,6 +36,8 @@ const SignUp = () => {
       await updateProfile(user, {
         displayName: name,
       });
+
+      await sendEmailVerification(user);
 
       router.push("/");
       console.log(user);
@@ -74,12 +77,12 @@ const SignUp = () => {
             </h2>
           </div>
 
-          <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm bg-white rounded-xl p-12 shadow-md">
+          <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-sm">
             <form className="space-y-6" onSubmit={handleSignUp}>
               <div>
                 <label
                   htmlFor="name"
-                  className="block text-sm font-medium leading-6 text-gray-900"
+                  className="block text-sm font-medium leading-6 text-gray-900 dark:text-white"
                 >
                   Name
                 </label>
@@ -100,7 +103,7 @@ const SignUp = () => {
               <div>
                 <label
                   htmlFor="email"
-                  className="block text-sm font-medium leading-6 text-gray-900"
+                  className="block text-sm font-medium leading-6 text-gray-900 dark:text-white"
                 >
                   Email address
                 </label>
@@ -122,7 +125,7 @@ const SignUp = () => {
                 <div className="flex items-center justify-between">
                   <label
                     htmlFor="password"
-                    className="block text-sm font-medium leading-6 text-gray-900"
+                    className="block text-sm font-medium leading-6 text-gray-900 dark:text-white"
                   >
                     Password
                   </label>
